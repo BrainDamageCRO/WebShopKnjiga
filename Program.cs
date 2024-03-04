@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WebShopKnjiga.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// DI -> Ovdje registriramo sve servise
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -20,6 +26,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Home/Privacy/
+// Home/Privacy/5
+// https://localhost:55555/{controller}/{action}/{id}
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
